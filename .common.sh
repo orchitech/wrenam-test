@@ -48,9 +48,14 @@ configure_ssoadm() {
   log_message "Setup completed..."
 }
 
-check_am() {
+check_ds() {
   local status=$(docker exec -it "wrenam-test" opends/bin/status -ns || :)
   return $(echo $status | grep "Server Run Status: Started" > /dev/null)
+}
+
+exec_am() {
+  docker exec -i "wrenam-test" "${@:2}"
+  cd "opt/ssoadm/auth/bin/"
 }
 
 fail_test() {
