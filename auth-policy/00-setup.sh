@@ -2,4 +2,7 @@
 
 . "$(dirname "${BASH_SOURCE[0]}")/../.common.sh"
 
-login_wren_am amadmin password
+start_am
+wait_for_start
+configure_server
+configure_ssoadm
