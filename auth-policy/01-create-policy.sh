@@ -9,7 +9,7 @@ log_message "Creating policy..."
 curl \
   --request POST \
   --header "Content-Type: application/json" \
-  --header "iPlanetDirectoryPro: AQIC5wM2LY4SfcwE_DCGero850NVhiWq4cS2mQA6jXOXGts.*AAJTSQACMDEAAlNLABQtMzAzMTE5NzMzNjM5OTc0MzEzNwACUzEAAA.." \
+  --header "iPlanetDirectoryPro: $(sso_token)" \
   --data '{
       "name": "mypolicy",
       "active": true,
@@ -35,7 +35,6 @@ http://localhost:8080/auth/json/policies?_action=create
 
 log_message "Policy created!"
 
-curl \
- --request POST \
- --header "iplanetDirectoryPro: AQIC5wM2LY4SfcySvYraAXlWUZAO2U7173pjYz4eRJxTVto.*AAJTSQACMDEAAlNLABQtMTAzODQxODU0MzczNDg4MTI5MgACUzEAAA..*" \
- http://localhost:8080/auth/json/sessions/?_action=logout
+logout_wren_am
+
+log_message "User logged out!"

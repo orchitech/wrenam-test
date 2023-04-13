@@ -4,6 +4,8 @@ set -eu -o pipefail
 
 trap "log_error Test failure!" ERR
 
+TOKEN=""
+
 log_message() {
   echo -e "\033[0;33m[TEST] $*\033[0m" >&2
 }
@@ -54,11 +56,83 @@ check_ds() {
 }
 
 exec_am() {
-  docker exec -i "wrenam-test" "${@:2}"
-  cd "opt/ssoadm/auth/bin/"
+  docker exec -w /opt/ssoadm/auth/bin/ "wrenam-test" "${}"
 }
 
 fail_test() {
   log_error "$@"
   exit 1
+}
+
+run_openldap() {
+  docker compose up -d
+}
+
+# Log in to WrenAM XUI with username and password
+login_wren_am() {
+  local AM_USERNAME=$1
+  local AM_PASSWORD=$2
+  local AM_URL="http://localhost:8080/auth"
+
+  HEADER_OPTS=(
+    -H "Accept: application/json"
+    -H "Content-Type: application/json"
+    -H "Accept-API-Version: protocol=2.0,resource=2.0"
+  )
+  ANONYMOUS_OPTS=(
+    -H "X-Password: anonymous"
+    -H "X-Username: anonymous"
+  )
+  CURL_OPTS=("${HEADER_OPTS[@]}" "${ANONYMOUS_OPTS[@]}")
+
+  COOKIE_FILE="./cookies.txt"
+
+  log_message "Starting authentication..."
+
+  AUTH_URL="${AM_URL}/json/realms/root/authenticate"
+  AUTH_RES=$(curl -sfk "${CURL_OPTS[@]}" -c ${COOKIE_FILE} "$AUTH_URL" -X POST)
+
+  LB_COOKIE=$(grep amlbcookie "$COOKIE_FILE" | sed -r 's/.*amlbcookie\t([0-9]*$)/\1/')
+  log_message "Authentication session ID assigned on server $LB_COOKIE"
+
+  COOKIE_STRING="amlbcookie=$LB_COOKIE"
+
+  # Send form with username and password credentials
+
+  AUTH_1_URL="${AM_URL}/json/realms/root/authenticate"
+
+  AUTH_1_REQ=$(echo "$AUTH_RES" |
+      jq ".callbacks[0].input[0].value = \"$AM_USERNAME\"" |
+      jq ".callbacks[1].input[0].value = \"$AM_PASSWORD\"")
+
+  if AUTH_1_RES=$(curl -sfk "${CURL_OPTS[@]}" -b "$COOKIE_STRING" "$AUTH_1_URL" -X POST -d "$AUTH_1_REQ")
+  then
+    TOKEN_ID=$(echo $AUTH_1_RES | jq -r ".tokenId")
+    log_message "SSO session ID: $TOKEN_ID"
+    log_message "Authentication for ${AM_USERNAME} completed!"
+    echo $TOKEN_ID >> sso_token.txt
+  else
+    log_error "Authentication failed due to invalid password credentials!"
+    $(rm -rf cookies.txt)
+  fi
+}
+
+# Get sso token from logged user
+
+sso_token() {
+  TOKEN_ID=$(cat sso_token.txt)
+  echo $TOKEN_ID
+}
+
+# Log out from WrenAM XUI
+
+logout_wren_am() {
+  TOKEN_ID=$(cat sso_token.txt)
+
+  curl \
+    --request POST \
+    --header "iplanetDirectoryPro: $TOKEN_ID" \
+  http://localhost:8080/auth/json/sessions/?_action=logout
+
+  $(rm -rf sso_token.txt && rm -rf cookies.txt)
 }
