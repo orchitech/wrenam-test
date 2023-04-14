@@ -4,6 +4,6 @@
 
 log_message "Checking for server status..."
 
-check_am
+check_ds
 
-log_message "All tests were succesful."
+log_message "Server status is checked"
