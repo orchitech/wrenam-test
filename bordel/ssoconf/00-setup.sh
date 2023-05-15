@@ -2,4 +2,7 @@
 
 . "$(dirname "${BASH_SOURCE[0]}")/../.common.sh"
 
-init_platform
+start_am
+wait_for_start
+configure_server
+configure_ssoadm
