@@ -1,0 +1,77 @@
+version: "3.4"
+
+x-shared-config: &shared-config
+  extra_hosts:
+    - "wrenam.wrensecurity.local:10.0.0.11"
+    - "wrenam1.wrensecurity.local:10.0.0.21"
+    - "wrenam2.wrensecurity.local:10.0.0.22"
+    - "wrends1.wrensecurity.local:10.0.0.31"
+    - "ldap1.wrensecurity.local:10.0.0.41"
+
+services:
+  frontend:
+    image: haproxy:2.7.8
+    container_name: wrenam-frontend
+    volumes:
+      - .docker/frontend/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.11
+    <<: *shared-config
+
+  wrenam1:
+    image: "${WRENAM_IMAGE:-wrenam}"
+    container_name: wrenam-test1
+    hostname: wrenam1.wrensecurity.local
+    volumes:
+      - .docker/wrenam/config1.properties:/srv/wrenam/config.properties
+    depends_on:
+      - frontend
+      - wrends1
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.21
+    <<: *shared-config
+
+  wrenam2:
+    image: "${WRENAM_IMAGE:-wrenam}"
+    container_name: wrenam-test2
+    hostname: wrenam2.wrensecurity.local
+    volumes:
+      - .docker/wrenam/config2.properties:/srv/wrenam/config.properties
+    depends_on:
+      - frontend
+      - wrends1
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.22
+    <<: *shared-config
+
+  wrends1:
+    image: wrensecurity/wrends:5.0.0
+    container_name: wrenam-wrends1
+    environment:
+      BASE_DN: ou=wrenam,dc=wrensecurity,dc=org
+      ROOT_USER_DN: cn=Directory Manager
+      ROOT_USER_PASSWORD: password
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.31
+    <<: *shared-config
+
+  ldap1:
+    image: osixia/openldap:1.5.0
+    container_name: wrenam-ldap1
+    environment:
+      LDAP_ADMIN_PASSWORD: "password"
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.41
+    <<: *shared-config
+
+networks:
+  wrenam:
+    name: wrenam-test
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
