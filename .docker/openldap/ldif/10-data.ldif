@@ -1,0 +1,63 @@
+#
+# Password policies configuration
+#
+
+dn: ou=policies,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: policies
+
+dn: cn=passwordDefault,ou=policies,{{ LDAP_BASE_DN }}
+objectClass: room
+objectClass: pwdPolicyChecker
+objectClass: pwdPolicy
+cn: passwordDefault
+pwdAttribute: userPassword
+pwdAllowUserChange: TRUE
+pwdCheckModule: check_password.so
+pwdCheckQuality: 2
+pwdExpireWarning: 0
+pwdFailureCountInterval: 0
+pwdGraceAuthNLimit: 0
+pwdInHistory: 5
+pwdLockout: TRUE
+pwdLockoutDuration: 0
+pwdMaxAge: 0
+pwdMaxFailure: 3
+pwdMinAge: 0
+pwdMinLength: 8
+pwdMustChange: TRUE
+pwdSafeModify: FALSE
+
+
+#
+# User data
+#
+
+dn: ou=users,{{ LDAP_BASE_DN }}
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+
+dn: uid=john,ou=users,{{ LDAP_BASE_DN }}
+objectClass: inetOrgPerson
+uid: john
+cn: John Doe
+sn: Doe
+mail: john.doe@example.org
+telephoneNumber: 123456789
+userPassword: password
+
+
+#
+# Group data
+#
+
+dn: ou=groups,{{ LDAP_BASE_DN }}
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=basic,ou=groups,{{ LDAP_BASE_DN }}
+objectClass: groupOfNames
+cn: basic
+member: cn=dummy
+member: uid=john,ou=users,{{ LDAP_BASE_DN }}

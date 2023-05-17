@@ -60,10 +60,10 @@ services:
     <<: *shared-config
 
   ldap1:
-    image: osixia/openldap:1.5.0
+    build: .docker/openldap
     container_name: wrenam-ldap1
     environment:
-      LDAP_ADMIN_PASSWORD: "password"
+      LDAP_ADMIN_PASSWORD: password
     networks:
       wrenam:
         ipv4_address: 10.0.0.41
