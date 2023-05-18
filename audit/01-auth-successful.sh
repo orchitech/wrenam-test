@@ -12,9 +12,6 @@ handle_error() {
 
 trap "handle_error" ERR
 
-# Successful login
-log_message "Running successful login test case..."
-
 empty_audit_file
 
 AUTH_STATUS=$(source "$(dirname "${BASH_SOURCE[0]}")/../.authenticate.sh" $instance_id amadmin password)

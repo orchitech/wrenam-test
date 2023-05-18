@@ -3,11 +3,12 @@
 # Simple script for running full test suite.
 #
 
-set -eu -o pipefail
+. "$(dirname "${BASH_SOURCE[0]}")/.common.sh"
 
 # Hardcoded list of test categories
 TEST_CATEGORIES=(
   "audit"
+  "auth-datastore"
 )
 
 log_suite() {
@@ -36,4 +37,5 @@ run_suite() {
   log_suite "Finished running tests"
 }
 
+init_platform
 run_suite

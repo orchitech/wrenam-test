@@ -3,9 +3,6 @@
 instance_id=1
 
 . "$(dirname "${BASH_SOURCE[0]}")/../.common.sh"
-
-init_platform
-
 . "$(dirname "${BASH_SOURCE[0]}")/.support.sh" $instance_id
 
 log_message "Configuring Global CSV Handler for this test..."
