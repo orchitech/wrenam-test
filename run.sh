@@ -10,6 +10,7 @@ TEST_CATEGORIES=(
   "audit"
   "auth-datastore"
   "auth-ldap"
+  "oauth2"
 )
 
 log_suite() {

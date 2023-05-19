@@ -7,9 +7,7 @@ INSTANCE_ID=1
 AUTH_AUDIT_FILE="/srv/wrenam/auth/log/authentication.csv"
 
 read_audit_file() {
-  # Sometimes duplicate entries are logged or they are logged out of order, sort them by timestamp and filter out duplicates
-  # TODO: is this necessary?
-  exec_am $INSTANCE_ID bash -c "cat $AUTH_AUDIT_FILE" | sort -t "," -k 2,2 | uniq
+  exec_am $INSTANCE_ID bash -c "cat $AUTH_AUDIT_FILE"
 }
 
 empty_audit_file() {
@@ -38,7 +36,6 @@ configure_global_csv_handler() {
   local buffering_enabled="$1"
   local buffering_auto_flush="$2"
 
-  # Disable log buffering and enable auto flush so log file is updated immediately
   exec_ssoadm $INSTANCE_ID \
     set-sub-cfg \
       --adminid amadmin \

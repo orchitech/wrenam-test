@@ -4,4 +4,5 @@
 . "$(dirname "${BASH_SOURCE[0]}")/.support.sh"
 
 log_message "Configuring Global CSV Handler for this test..."
+# Disable log buffering and enable auto flush so log file is updated immediately
 configure_global_csv_handler false true
