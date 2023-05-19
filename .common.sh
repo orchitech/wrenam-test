@@ -106,8 +106,8 @@ check_ds() {
   $(echo $status | grep "Server Run Status: Started" > /dev/null) || return 1
   # Perform user backend search (it starts a bit later than the container)
   exec_ds $instance_id ldapsearch --port 1389 \
-      --bindDN "cn=Directory Manager" --bindPassword password \
-      --baseDN "ou=wrenam,dc=wrensecurity,dc=org" --searchScope one "(objectclass=*)" "dn" > /dev/null 2>&1
+    --bindDN "cn=Directory Manager" --bindPassword password \
+    --baseDN "ou=wrenam,dc=wrensecurity,dc=org" --searchScope one "(objectclass=*)" "dn" > /dev/null 2>&1
 }
 
 fail_test() {
