@@ -2,17 +2,18 @@
 
 . "$(dirname "${BASH_SOURCE[0]}")/../.common.sh"
 
-instance_id="$1"
+INSTANCE_ID=1
 
 AUTH_AUDIT_FILE="/srv/wrenam/auth/log/authentication.csv"
 
 read_audit_file() {
   # Sometimes duplicate entries are logged or they are logged out of order, sort them by timestamp and filter out duplicates
-  exec_am $instance_id bash -c "cat $AUTH_AUDIT_FILE" | sort -t "," -k 2,2 | uniq
+  # TODO: is this necessary?
+  exec_am $INSTANCE_ID bash -c "cat $AUTH_AUDIT_FILE" | sort -t "," -k 2,2 | uniq
 }
 
 empty_audit_file() {
-  exec_am $instance_id bash -c "echo "$AUTH_AUDIT_FILE_HEADER" > $AUTH_AUDIT_FILE"
+  exec_am $INSTANCE_ID bash -c "echo "$AUTH_AUDIT_FILE_HEADER" > $AUTH_AUDIT_FILE"
   check_audit_file_len 1
 }
 
@@ -38,7 +39,7 @@ configure_global_csv_handler() {
   local buffering_auto_flush="$2"
 
   # Disable log buffering and enable auto flush so log file is updated immediately
-  exec_ssoadm $instance_id \
+  exec_ssoadm $INSTANCE_ID \
     set-sub-cfg \
       --adminid amadmin \
       --password-file pwd.txt \
@@ -46,7 +47,7 @@ configure_global_csv_handler() {
       --subconfigname "Global CSV Handler" \
       --operation set \
       --attributevalues "bufferingEnabled=$buffering_enabled"
-  exec_ssoadm $instance_id \
+  exec_ssoadm $INSTANCE_ID \
     set-sub-cfg \
       --adminid amadmin \
       --password-file pwd.txt \
