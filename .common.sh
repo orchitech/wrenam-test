@@ -28,7 +28,10 @@ await_confirm() {
 }
 
 fail_test() {
-  log_error "$@"
+  log_error "${1:-}"
+  if [ -n "${2:-}" ]; then
+    echo "$2" >&2
+  fi
   exit 1
 }
 
