@@ -7,6 +7,7 @@
 
 # Hardcoded list of test categories
 TEST_CATEGORIES=(
+  "audit"
   "auth-datastore"
 )
 
