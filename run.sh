@@ -9,6 +9,7 @@
 TEST_CATEGORIES=(
   "audit"
   "auth-datastore"
+  "auth-ldap"
   "ssoadm"
 )
 
