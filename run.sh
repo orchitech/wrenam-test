@@ -11,6 +11,7 @@ TEST_CATEGORIES=(
   "auth-datastore"
   "auth-ldap"
   "ha"
+  "oauth2"
   "ssoadm"
   "policy"
 )
@@ -28,7 +29,7 @@ run_tests() {
 run_suite() {
   local skip=${RESUME_FROM:-}
   for category in ${TEST_CATEGORIES[@]}; do
-    if [ "$category" == "$skip" ]; then
+    if [ "$category" = "$skip" ]; then
       skip=
     fi
     if [ ! -z "$skip" ]; then

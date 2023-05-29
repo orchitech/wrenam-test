@@ -1,0 +1,597 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE ServicesConfiguration
+PUBLIC "=//iPlanet//Service Management Services (SMS) 1.0 DTD//EN"
+"jar://com/sun/identity/sm/sms.dtd">
+
+<ServicesConfiguration>
+  <Service name="OAuth2Provider" version="1.0">
+    <Schema i18nFileName="OAuth2Provider" i18nKey="forgerock-oauth2-provider-description" resourceName="oauth-oidc" revisionNumber="1" serviceHierarchy="/DSAMEConfig/ForgerockOAuth2ProviderService">
+      <Global validate="yes">
+        <AttributeSchema cosQualifier="default" isSearchable="no" listOrder="natural" name="blacklistingEnabled" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a134" isSearchable="no" listOrder="natural" name="blacklistCacheSize" order="0" rangeEnd="2147483647" rangeStart="0" syntax="number_range" type="single">
+          <DefaultValues>
+            <Value>10000</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a135" isSearchable="no" listOrder="natural" name="blacklistPollInterval" order="1" rangeEnd="2147483647" rangeStart="0" syntax="number_range" type="single">
+          <DefaultValues>
+            <Value>60</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a136" isSearchable="no" listOrder="natural" name="blacklistPurgeDelay" order="2" rangeEnd="2147483647" rangeStart="0" syntax="number_range" type="single">
+          <DefaultValues>
+            <Value>1</Value>
+          </DefaultValues>
+        </AttributeSchema>
+      </Global>
+      <Organization>
+        <AttributeSchema cosQualifier="default" i18nKey="a099" isSearchable="no" listOrder="natural" name="statelessTokensEnabled" order="3" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a100" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-authorization-code-lifetime" order="10" rangeEnd="2147483647" rangeStart="0" resourceName="codeLifetime" syntax="number_range" type="single" validator="RequiredValueValidator">
+          <DefaultValues>
+            <Value>120</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a101" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-refresh-token-lifetime" order="20" rangeEnd="2147483647" rangeStart="-1" resourceName="refreshTokenLifetime" syntax="number_range" type="single" validator="RequiredValueValidator">
+          <DefaultValues>
+            <Value>604800</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a102" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-access-token-lifetime" order="30" rangeEnd="2147483647" rangeStart="0" resourceName="accessTokenLifetime" syntax="number_range" type="single" validator="RequiredValueValidator">
+          <DefaultValues>
+            <Value>3600</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a103" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-issue-refresh-token" order="40" resourceName="issueRefreshToken" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a103a" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-issue-refresh-token-on-refreshing-token" order="50" resourceName="issueRefreshTokenOnRefreshedToken" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a103b" isSearchable="no" listOrder="natural" name="customLoginUrlTemplate" order="60" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a104" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-scope-implementation-class" order="70" resourceName="scopeImplementationClass" syntax="string" type="single" validator="RequiredValueValidator">
+          <DefaultValues>
+            <Value>org.forgerock.openam.oauth2.OpenAMScopeValidator</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a104aa" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-oidc-claims-extension-script" order="80" propertiesViewBeanURL="../XUI/%23realms/{0}/scripts/edit/{1}" resourceName="oidcClaimsScript" syntax="string" type="single_choice" uitype="scriptSelect">
+          <ChoiceValues>
+            <ChoiceValuesClassName className="org.forgerock.openam.scripting.service.ScriptChoiceValues">
+              <AttributeValuePair>
+                <Attribute name="ContextId"></Attribute>
+                <Value>OIDC_CLAIMS</Value>
+              </AttributeValuePair>
+            </ChoiceValuesClassName>
+          </ChoiceValues>
+          <DefaultValues>
+            <Value>36863ffb-40ec-48b9-94b1-9a99f71cc3b5</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a105" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-response-type-map-class" order="90" resourceName="responseTypeClasses" syntax="string" type="list">
+          <DefaultValues>
+            <Value>token|org.forgerock.oauth2.core.TokenResponseTypeHandler</Value>
+            <Value>code|org.forgerock.oauth2.core.AuthorizationCodeResponseTypeHandler</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a106" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-authentication-attributes" order="100" resourceName="authenticationAttributes" syntax="string" type="list">
+          <DefaultValues>
+            <Value>uid</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a107" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-saved-consent-attribute" order="110" resourceName="savedConsentAttribute" syntax="string" type="single">
+          <IsOptional></IsOptional>
+          <DefaultValues>
+            <Value></Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a1075" isSearchable="no" listOrder="natural" name="displayNameAttribute" order="120" syntax="string" type="single">
+          <DefaultValues>
+            <Value>cn</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a108" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-supported-scopes" order="130" resourceName="supportedScopes" syntax="string" type="list">
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a109" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-jkws-uri" order="140" resourceName="jkwsURI" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a110" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-subject-types-supported" order="150" resourceName="supportedSubjectTypes" syntax="string" type="list">
+          <DefaultValues>
+            <Value>public</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a111" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-id-token-signing-algorithms-supported" order="160" resourceName="supportedIDTokenSigningAlgorithms" syntax="string" type="list">
+          <DefaultValues>
+            <Value>HS256</Value>
+            <Value>HS384</Value>
+            <Value>HS512</Value>
+            <Value>RS256</Value>
+            <Value>ES256</Value>
+            <Value>ES384</Value>
+            <Value>ES512</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a111a" isSearchable="no" listOrder="natural" name="supportedIDTokenEncryptionAlgorithms" order="170" syntax="string" type="list">
+          <DefaultValues>
+            <Value>RSA1_5</Value>
+            <Value>RSA-OAEP</Value>
+            <Value>RSA-OAEP-256</Value>
+            <Value>dir</Value>
+            <Value>A128KW</Value>
+            <Value>A192KW</Value>
+            <Value>A256KW</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a111b" isSearchable="no" listOrder="natural" name="supportedIDTokenEncryptionMethods" order="180" syntax="string" type="list">
+          <DefaultValues>
+            <Value>A128CBC-HS256</Value>
+            <Value>A192CBC-HS384</Value>
+            <Value>A256CBC-HS512</Value>
+            <Value>A128GCM</Value>
+            <Value>A192GCM</Value>
+            <Value>A256GCM</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a112" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-supported-claims" order="190" resourceName="supportedClaims" syntax="string" type="list">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a122" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-default-scopes" order="200" resourceName="defaultScopes" syntax="string" type="list">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a113" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-jwt-token-lifetime" order="210" rangeEnd="2147483647" rangeStart="0" resourceName="jwtTokenLifetime" syntax="number_range" type="single" validator="RequiredValueValidator">
+          <IsOptional></IsOptional>
+          <DefaultValues>
+            <Value>3600</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a113a" isSearchable="no" listOrder="insertion" name="tokenSigningAlgorithm" order="220" syntax="string" type="single_choice">
+          <ChoiceValues>
+            <ChoiceValue i18nKey="choiceHS256">HS256</ChoiceValue>
+            <ChoiceValue i18nKey="choiceHS384">HS384</ChoiceValue>
+            <ChoiceValue i18nKey="choiceHS512">HS512</ChoiceValue>
+            <ChoiceValue i18nKey="choiceRS256">RS256</ChoiceValue>
+            <ChoiceValue i18nKey="choiceES256">ES256</ChoiceValue>
+            <ChoiceValue i18nKey="choiceES384">ES384</ChoiceValue>
+            <ChoiceValue i18nKey="choiceES512">ES512</ChoiceValue>
+          </ChoiceValues>
+          <DefaultValues>
+            <Value>HS256</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a138" isSearchable="no" listOrder="natural" name="tokenCompressionEnabled" order="223" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a137" isSearchable="no" listOrder="natural" name="idTokenInfoClientAuthenticationEnabled" order="225" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a113b" isSearchable="no" listOrder="natural" name="tokenSigningHmacSharedSecret" order="230" syntax="string" type="single">
+          <DefaultValues>
+            <Value>hoIoR6DpLjIzn2eYXPrTVLxZlZoBDZXWyKBBipjyoMk=</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a114" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-keypair-name" order="240" resourceName="keypairName" syntax="string" type="single" validator="RequiredValueValidator">
+          <IsOptional></IsOptional>
+          <DefaultValues>
+            <Value>test</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a114a" isSearchable="no" listOrder="natural" name="tokenSigningECDSAKeyAlias" order="241" syntax="string" type="list" validator="RequiredValueValidator">
+          <IsOptional></IsOptional>
+          <DefaultValues>
+            <Value>ES256|test</Value>
+            <Value>ES384|test</Value>
+            <Value>ES512|test</Value>
+          </DefaultValues>
+        </AttributeSchema>
+        <AttributeSchema cosQualifier="default" i18nKey="a123" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-claims-parameter-supported" order="250" resourceName="claimsParameterSupported" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a124" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-hash-salt" order="260" resourceName="hashSalt" syntax="string" type="single">
+          <IsOptional></IsOptional>
+          <ExampleValue>
+            <Value>changeme</Value>
+          </ExampleValue>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a126" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-code-verifier-enforced" order="270" resourceName="codeVerifierEnforced" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a115" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-allow-open-dynamic-registration" order="280" resourceName="allowDynamicRegistration" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a116" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-generate-registration-access-tokens" order="290" resourceName="generateRegistrationAccessTokens" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+
+        <AttributeSchema cosQualifier="default" isSearchable="no" listOrder="natural" name="MapValueValidator" order="300" syntax="string" type="validator">
+          <DefaultValues>
+            <Value>com.sun.identity.common.configuration.MapValueValidator</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a117" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-loa-mapping" order="310" resourceName="loaMapping" syntax="string" type="list" uitype="maplist" validator="MapValueValidator">
+          <IsOptional></IsOptional>
+          <ChoiceValues>
+            <ChoiceValuesClassName className="com.sun.identity.authentication.service.ConfiguredAuthServices"></ChoiceValuesClassName>
+          </ChoiceValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a118" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-default-acr" order="320" resourceName="defaultACR" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a119" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-amr-mappings" order="330" resourceName="amrMappings" syntax="string" type="list" uitype="maplist" validator="MapValueValidator">
+          <IsOptional></IsOptional>
+          <ChoiceValues>
+            <ChoiceValuesClassName className="com.sun.identity.authentication.service.AllConfiguredModuleInstances"></ChoiceValuesClassName>
+          </ChoiceValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a120" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-modified-attribute-name" order="340" resourceName="modifiedTimestampAttribute" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a121" isSearchable="no" listOrder="natural" name="forgerock-oauth2-provider-created-attribute-name" order="350" resourceName="createdTimestampAttribute" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a125" isSearchable="no" listOrder="natural" name="alwaysAddClaimsToToken" order="360" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a127" isSearchable="no" listOrder="natural" name="verificationUrl" order="370" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a128" isSearchable="no" listOrder="natural" name="completionUrl" order="380" syntax="string" type="single">
+          <IsOptional></IsOptional>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a129" isSearchable="no" listOrder="natural" name="deviceCodeLifetime" order="390" rangeEnd="2147483647" rangeStart="0" syntax="number_range" type="single">
+          <DefaultValues>
+            <Value>300</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a130" isSearchable="no" listOrder="natural" name="devicePollInterval" order="400" rangeEnd="2147483647" rangeStart="0" syntax="number_range" type="single">
+          <DefaultValues>
+            <Value>5</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a131" isSearchable="no" listOrder="natural" name="storeOpsTokens" order="410" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>true</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a132" isSearchable="no" listOrder="natural" name="clientsCanSkipConsent" order="420" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+
+        <AttributeSchema cosQualifier="default" i18nKey="a139" isSearchable="no" listOrder="natural" name="oidcSsoProviderEnabled" order="430" syntax="boolean" type="single">
+          <BooleanValues>
+            <BooleanTrueValue i18nKey="i18nTrue">true</BooleanTrueValue>
+            <BooleanFalseValue i18nKey="i18nFalse">false</BooleanFalseValue>
+          </BooleanValues>
+          <DefaultValues>
+            <Value>false</Value>
+          </DefaultValues>
+        </AttributeSchema>
+      </Organization>
+    </Schema>
+    <Configuration>
+      <OrganizationConfiguration group="default" name="{{REALM}}">
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-scope-implementation-class"/>
+          <Value>org.forgerock.openam.oauth2.OpenAMScopeValidator</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-refresh-token-lifetime"/>
+          <Value>604800</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-allow-open-dynamic-registration"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="supportedIDTokenEncryptionMethods"/>
+          <Value>A256GCM</Value>
+          <Value>A192GCM</Value>
+          <Value>A128GCM</Value>
+          <Value>A128CBC-HS256</Value>
+          <Value>A192CBC-HS384</Value>
+          <Value>A256CBC-HS512</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="customLoginUrlTemplate"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-modified-attribute-name"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-supported-scopes"/>
+          <Value>openid|</Value>
+          <Value>email|Your email address</Value>
+          <Value>address|Your postal address</Value>
+          <Value>phone|Your telephone number(s)</Value>
+          <Value>profile|Your personal information</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="storeOpsTokens"/>
+          <Value>true</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-response-type-map-class"/>
+          <Value>id_token|org.forgerock.openidconnect.IdTokenResponseTypeHandler</Value>
+          <Value>code|org.forgerock.oauth2.core.AuthorizationCodeResponseTypeHandler</Value>
+          <Value>token|org.forgerock.oauth2.core.TokenResponseTypeHandler</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-access-token-lifetime"/>
+          <Value>3600</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="completionUrl"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="tokenSigningECDSAKeyAlias"/>
+          <Value>ES512|test</Value>
+          <Value>ES256|test</Value>
+          <Value>ES384|test</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="idTokenInfoClientAuthenticationEnabled"/>
+          <Value>true</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-issue-refresh-token"/>
+          <Value>true</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="devicePollInterval"/>
+          <Value>5</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-jwt-token-lifetime"/>
+          <Value>3600</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-supported-claims"/>
+          <Value>phone_number|Phone number</Value>
+          <Value>family_name|Family name</Value>
+          <Value>given_name|Given name</Value>
+          <Value>locale|Locale</Value>
+          <Value>email|Email address</Value>
+          <Value>profile|Your personal information</Value>
+          <Value>zoneinfo|Time zone</Value>
+          <Value>address|Postal address</Value>
+          <Value>name|Full name</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-default-acr"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-hash-salt"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-claims-parameter-supported"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="tokenSigningHmacSharedSecret"/>
+          <Value>hoIoR6DpLjIzn2eYXPrTVLxZlZoBDZXWyKBBipjyoMk=</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-code-verifier-enforced"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-authorization-code-lifetime"/>
+          <Value>120</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="tokenCompressionEnabled"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="tokenSigningAlgorithm"/>
+          <Value>HS256</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-authentication-attributes"/>
+          <Value>uid</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-amr-mappings"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-saved-consent-attribute"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-created-attribute-name"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="deviceCodeLifetime"/>
+          <Value>300</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-default-scopes"/>
+          <Value>address</Value>
+          <Value>phone</Value>
+          <Value>openid</Value>
+          <Value>profile</Value>
+          <Value>email</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="displayNameAttribute"/>
+          <Value>cn</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-keypair-name"/>
+          <Value>test</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="alwaysAddClaimsToToken"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="supportedIDTokenEncryptionAlgorithms"/>
+          <Value>RSA-OAEP</Value>
+          <Value>RSA-OAEP-256</Value>
+          <Value>A128KW</Value>
+          <Value>RSA1_5</Value>
+          <Value>A256KW</Value>
+          <Value>dir</Value>
+          <Value>A192KW</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-issue-refresh-token-on-refreshing-token"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="clientsCanSkipConsent"/>
+          <Value>true</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="statelessTokensEnabled"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-generate-registration-access-tokens"/>
+          <Value>true</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-id-token-signing-algorithms-supported"/>
+          <Value>ES384</Value>
+          <Value>HS256</Value>
+          <Value>HS512</Value>
+          <Value>ES256</Value>
+          <Value>RS256</Value>
+          <Value>HS384</Value>
+          <Value>ES512</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-subject-types-supported"/>
+          <Value>public</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="oidcSsoProviderEnabled"/>
+          <Value>false</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-loa-mapping"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="verificationUrl"/>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-oidc-claims-extension-script"/>
+          <Value>36863ffb-40ec-48b9-94b1-9a99f71cc3b5</Value>
+        </AttributeValuePair>
+        <AttributeValuePair>
+          <Attribute name="forgerock-oauth2-provider-jkws-uri"/>
+        </AttributeValuePair>
+      </OrganizationConfiguration>
+    </Configuration>
+  </Service>
+</ServicesConfiguration>
