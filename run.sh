@@ -9,6 +9,7 @@
 TEST_CATEGORIES=(
   "audit"
   "auth-datastore"
+  "ssoadm"
 )
 
 log_suite() {
