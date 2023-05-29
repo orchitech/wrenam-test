@@ -13,6 +13,18 @@ clear_cookies() {
 }
 
 #
+# Read cookie fields from stdin and write them to cookie file.
+#
+# Supported environment variables:
+#
+#   AUTH_SESSION_NAME - name of the session cookie file (defaults to 'default')
+#
+set_cookies() {
+  local cookie_file="./.cookies/${AUTH_SESSION_NAME:-default}"
+  cat > $cookie_file
+}
+
+#
 # Perform authentication request against /json/authenticate endpoint.
 # Reads request body from stdin, prints response headers and body to stdout.
 #
