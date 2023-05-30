@@ -10,7 +10,7 @@ TEST_USER_PASSWORD=password
 clear_cookies
 
 # Authenticate against AM test instance 1
-echo ".wrensecurity.local	TRUE	/	FALSE	0	amlbcookie	$TEST_INSTANCE_AMLBCOOKIE" | set_cookies
+set_lb_cookie $TEST_INSTANCE_ID
 
 AUTH_RESPONSE=$(
   authentication_request < /dev/null \
@@ -41,7 +41,7 @@ curl -si \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Accept-API-Version: protocol=1.0,resource=2.0' \
-  -b "amlbcookie=$TEST_INSTANCE_AMLBCOOKIE;iPlanetDirectoryPro=$TOKEN" \
+  -b "amlbcookie=${TEST_INSTANCE_LB_COOKIE[$TEST_INSTANCE_ID]};iPlanetDirectoryPro=$TOKEN" \
   --connect-to wrenam.wrensecurity.local:443:10.0.0.11:443 \
   "http://wrenam.wrensecurity.local/auth/json/users?_action=idFromSession" \
 | assert_response_status > /dev/null

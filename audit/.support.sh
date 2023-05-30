@@ -4,7 +4,7 @@
 . "$(dirname "${BASH_SOURCE[0]}")/../.client.sh"
 
 # Wren:AM instance ID
-TEST_INSTANCE_ID=2
+TEST_INSTANCE_ID=1
 
 # Number of modules in authentication chain
 AUTH_CHAIN_MODULES=1
@@ -33,9 +33,4 @@ assert_audit_file_content() {
   local actual=$(read_audit_file | tail -n $offset)
   $(echo "$actual" | grep -e "$expected_pattern" > /dev/null) || \
     fail_test "Audit file's content does not match '$expected_pattern'.\nActual content (last 5 lines):\n$(actual)"
-}
-
-set_lb_cookie() {
-  local amlbcookie=$([ $TEST_INSTANCE_ID = 2 ] && echo "03" || echo "0$TEST_INSTANCE_ID")
-  echo ".wrensecurity.local	TRUE	/	FALSE	0	amlbcookie	$amlbcookie" | set_cookies
 }

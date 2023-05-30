@@ -8,7 +8,7 @@ TEST_USER_USERNAME=amadmin
 TEST_USER_PASSWORD=wrong_password
 
 clear_cookies
-set_lb_cookie
+set_lb_cookie $TEST_INSTANCE_ID
 
 # Store audit file initial length before authenticating
 AUDIT_FILE_LATEST_LEN="$(get_audit_file_len)"
