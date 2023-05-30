@@ -4,7 +4,7 @@
 . "$(dirname "${BASH_SOURCE[0]}")/../.client.sh"
 
 # Wren:AM instance ID
-TEST_INSTANCE_ID=1
+TEST_INSTANCE_ID=2
 
 # Number of modules in authentication chain
 AUTH_CHAIN_MODULES=1
@@ -36,6 +36,6 @@ assert_audit_file_content() {
 }
 
 set_lb_cookie() {
-  local amlbcookie=$([ $TEST_INSTANCE_ID == 2 ] && echo "03" || echo "0$TEST_INSTANCE_ID")
+  local amlbcookie=$([ $TEST_INSTANCE_ID = 2 ] && echo "03" || echo "0$TEST_INSTANCE_ID")
   echo ".wrensecurity.local	TRUE	/	FALSE	0	amlbcookie	$amlbcookie" | set_cookies
 }

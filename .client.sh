@@ -59,7 +59,7 @@ authentication_request() {
 get_response_body() {
   local input=${1:-}
   if [ "$input" == "-" ]; then
-    read -r input
+    input=$(cat)
   fi
   echo -n "$input" | sed -r '0,/^[\r\n]+/d'
 }
