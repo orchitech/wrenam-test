@@ -25,6 +25,7 @@ services:
     hostname: wrenam1.wrensecurity.local
     volumes:
       - .docker/wrenam/config1.properties:/srv/wrenam/config.properties
+      - .docker/wrenam/LDAP.properties:/srv/wrenam/LDAP.properties
     depends_on:
       - frontend
       - wrends1
