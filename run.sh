@@ -12,6 +12,7 @@ TEST_CATEGORIES=(
   "auth-ldap"
   "ha"
   "ssoadm"
+  "policy"
 )
 
 log_suite() {
