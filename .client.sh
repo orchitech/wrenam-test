@@ -1,5 +1,7 @@
 #!/bin/bash
 
+declare -A TEST_INSTANCE_LB_COOKIE=( [1]=01 [2]=03 )
+
 #
 # Remove all session cookies by deleting the cookie file.
 #
@@ -22,6 +24,14 @@ clear_cookies() {
 set_cookies() {
   local cookie_file="./.cookies/${AUTH_SESSION_NAME:-default}"
   cat > $cookie_file
+}
+
+#
+# Set load balancer cookie based on provided test instance ID.
+#
+set_lb_cookie() {
+  local test_instance=$1
+  echo ".wrensecurity.local	TRUE	/	FALSE	0	amlbcookie	${TEST_INSTANCE_LB_COOKIE[$test_instance]}" | set_cookies
 }
 
 #
@@ -59,7 +69,7 @@ authentication_request() {
 get_response_body() {
   local input=${1:-}
   if [ "$input" == "-" ]; then
-    read -r input
+    input=$(cat)
   fi
   echo -n "$input" | sed -r '0,/^[\r\n]+/d'
 }
