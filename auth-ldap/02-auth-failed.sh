@@ -10,7 +10,7 @@ TEST_USER_PASSWORD=wrong_password
 clear_cookies
 
 AUTH_RESPONSE=$(
-  authentication_request "realm=/$TEST_REALM" < /dev/null \
+  authentication_request "realm=$TEST_REALM" < /dev/null \
   | assert_response_status \
   | assert_response_body '.stage == "LDAP1"'
 )
@@ -21,6 +21,6 @@ AUTH_REQUEST=$(
   | jq ".callbacks[1].input[0].value = \"$TEST_USER_PASSWORD\""
 )
 
-authentication_request "realm=/$TEST_REALM" <<< "$AUTH_REQUEST" \
+authentication_request "realm=$TEST_REALM" <<< "$AUTH_REQUEST" \
   | assert_response_status 401 \
   > /dev/null

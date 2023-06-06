@@ -8,7 +8,7 @@
 TEST_USER_USERNAME=amadmin
 TEST_USER_PASSWORD=password
 
-TOKEN=$(authenticate)
+TOKEN=$(authenticate "/")
 
 # Create policy set
 TEST_POLICY_SET_DATA='{
@@ -17,7 +17,7 @@ TEST_POLICY_SET_DATA='{
   "resourceTypeUuids": [
     "UrlResourceType"
   ],
-  "realm": "/'$TEST_REALM'",
+  "realm": "'$TEST_REALM'",
   "applicationType": "iPlanetAMWebAgentService",
   "conditions": [
     "AMIdentityMembership",
@@ -56,7 +56,7 @@ TEST_POLICY_1_DATA='{
   },
   "condition": {
     "type": "AuthenticateToRealm",
-    "authenticateToRealm": "/'$TEST_REALM'"
+    "authenticateToRealm": "'$TEST_REALM'"
   },
   "resourceAttributes": [
     {

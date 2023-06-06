@@ -1,3 +1,3 @@
 #!/bin/bash
 
-TEST_REALM="auth-ldap"
+TEST_REALM="/auth-ldap"

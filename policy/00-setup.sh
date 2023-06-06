@@ -7,10 +7,10 @@
 exec_ssoadm $TEST_INSTANCE_ID delete-realm \
   --adminid amadmin \
   --password-file pwd.txt \
-  --realm $TEST_REALM || : # ignore error exit code in case the realm does not exist
+  --realm "$TEST_REALM" || : # ignore error exit code in case the realm does not exist
 
 # Create new realm
 exec_ssoadm $TEST_INSTANCE_ID create-realm \
   --adminid amadmin \
   --password-file pwd.txt \
-  --realm $TEST_REALM
+  --realm "$TEST_REALM"

@@ -8,7 +8,7 @@
 TEST_USER_USERNAME=amadmin
 TEST_USER_PASSWORD=password
 
-TOKEN=$(authenticate)
+TOKEN=$(authenticate "/")
 
 # Authenticate as subject
 TEST_USER_USERNAME="John Doe"
