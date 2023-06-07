@@ -5,12 +5,12 @@
 . "$(dirname "${BASH_SOURCE[0]}")/.support.sh"
 
 # Set test user's "pwdReset" attribute to force password change on next authentication
-exec_ldap bash -c "ldapmodify -D $ADMIN_DN -w $ADMIN_PASSWORD <<< '
-dn: '$TEST_USER_DN'
+exec_ldap ldapmodify -D "$ADMIN_DN" -w "$ADMIN_PASSWORD" > /dev/null << END
+dn: $TEST_USER_DN
 changetype: modify
 replace: pwdReset
 pwdReset: TRUE
-'" > /dev/null
+END
 
 clear_cookies
 

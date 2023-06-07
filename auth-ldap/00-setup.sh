@@ -38,9 +38,9 @@ exec_ssoadm $TEST_INSTANCE_ID update-auth-cfg-entr \
 > /dev/null
 
 # Make sure test user's password is what we expect
-exec_ldap bash -c "ldapmodify -D $ADMIN_DN -w $ADMIN_PASSWORD <<< '
-dn: '$TEST_USER_DN'
+exec_ldap ldapmodify -D "$ADMIN_DN" -w "$ADMIN_PASSWORD" -x > /dev/null << END
+dn: $TEST_USER_DN
 changetype: modify
 replace: userPassword
-userPassword: '$TEST_USER_PASSWORD'
-'" > /dev/null
+userPassword: $TEST_USER_PASSWORD
+END

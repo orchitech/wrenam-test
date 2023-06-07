@@ -122,5 +122,5 @@ check_ds() {
 }
 
 exec_ldap() {
-  docker-compose exec ldap1 "${@}"
+  docker exec -i wrenam-ldap1 "$@" < /dev/stdin
 }
