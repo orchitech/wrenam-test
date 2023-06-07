@@ -4,9 +4,6 @@
 . "$(dirname "${BASH_SOURCE[0]}")/../.client.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/.support.sh"
 
-TEST_USER_USERNAME="John Doe"
-TEST_USER_PASSWORD=password
-
 clear_cookies
 
 AUTH_RESPONSE=$(

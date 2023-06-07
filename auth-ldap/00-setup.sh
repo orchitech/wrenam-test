@@ -9,13 +9,15 @@ TEST_INSTANCE_ID=1
 exec_ssoadm $TEST_INSTANCE_ID delete-realm \
   --adminid amadmin \
   --password-file pwd.txt \
-  --realm "$TEST_REALM" || : # ignore error exit code in case the realm does not exist
+  --realm "$TEST_REALM" \
+> /dev/null || :
 
 # Create new realm
 exec_ssoadm $TEST_INSTANCE_ID create-realm \
   --adminid amadmin \
   --password-file pwd.txt \
-  --realm "$TEST_REALM"
+  --realm "$TEST_REALM" \
+> /dev/null
 
 # Configure default LDAP module
 exec_ssoadm $TEST_INSTANCE_ID update-auth-instance \
@@ -23,7 +25,8 @@ exec_ssoadm $TEST_INSTANCE_ID update-auth-instance \
   --password-file pwd.txt \
   --name LDAP \
   --realm "$TEST_REALM" \
-  --datafile /srv/wrenam/LDAP.properties
+  --datafile /srv/wrenam/LDAP.properties \
+> /dev/null
 
 # Configure default ldapService chain
 exec_ssoadm $TEST_INSTANCE_ID update-auth-cfg-entr \
@@ -31,4 +34,13 @@ exec_ssoadm $TEST_INSTANCE_ID update-auth-cfg-entr \
   --password-file pwd.txt \
   --name ldapService \
   --realm "$TEST_REALM" \
-  --entries "LDAP|REQUISITE|"
+  --entries "LDAP|REQUISITE|" \
+> /dev/null
+
+# Make sure test user's password is what we expect
+exec_ldap ldapmodify -D "$ADMIN_DN" -w "$ADMIN_PASSWORD" -x > /dev/null << END
+dn: $TEST_USER_DN
+changetype: modify
+replace: userPassword
+userPassword: $TEST_USER_PASSWORD
+END

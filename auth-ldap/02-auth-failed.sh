@@ -4,8 +4,7 @@
 . "$(dirname "${BASH_SOURCE[0]}")/../.client.sh"
 . "$(dirname "${BASH_SOURCE[0]}")/.support.sh"
 
-TEST_USER_USERNAME="John Doe"
-TEST_USER_PASSWORD=wrong_password
+TEST_USER_WRONG_PASSWORD=wrong_password
 
 clear_cookies
 
@@ -18,7 +17,7 @@ AUTH_RESPONSE=$(
 AUTH_REQUEST=$(
   get_response_body "$AUTH_RESPONSE" \
   | jq ".callbacks[0].input[0].value = \"$TEST_USER_USERNAME\"" \
-  | jq ".callbacks[1].input[0].value = \"$TEST_USER_PASSWORD\""
+  | jq ".callbacks[1].input[0].value = \"$TEST_USER_WRONG_PASSWORD\""
 )
 
 authentication_request "realm=$TEST_REALM" <<< "$AUTH_REQUEST" \

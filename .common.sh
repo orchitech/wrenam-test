@@ -120,3 +120,7 @@ check_ds() {
       --bindDN "cn=Directory Manager" --bindPassword password \
       --baseDN "ou=wrenam,dc=wrensecurity,dc=org" --searchScope one "(objectclass=*)" "dn" > /dev/null 2>&1
 }
+
+exec_ldap() {
+  docker exec -i wrenam-ldap1 "$@" < /dev/stdin
+}
