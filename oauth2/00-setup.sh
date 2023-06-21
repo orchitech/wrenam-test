@@ -45,26 +45,22 @@ exec_ssoadm $TEST_INSTANCE_ID add-svc-realm \
 #   * Scopes: openid, profile
 #   * Implied consent: enabled
 #
-# Provided datafile was obtained via "show-agent" ssoadm command
-#
-OAUTH_AGENT_DATAFILE="oauth2-agent.txt"
+OAUTH_AGENT_DATAFILE="oauth2-agent.properties"
 
-# Copy datafile to container and replace placeholders
-docker cp "$SCRIPT_DIR/cfg/$OAUTH_AGENT_DATAFILE" "wrenam-test$TEST_INSTANCE_ID:/opt/ssoadm/auth/$OAUTH_AGENT_DATAFILE"
-exec_am $TEST_INSTANCE_ID bash -c "sed -i \
-  -e 's/{{TEST_INSTANCE_ID}}/$TEST_INSTANCE_ID/' \
-  -e 's|{{REALM}}|$TEST_REALM|' \
-  -e 's|{{REDIRECT_URI}}|$OAUTH_AGENT_REDIRECT_URI|' \
-  -e 's/{{AGENT_PASSWORD}}/$OAUTH_AGENT_SECRET/' \
-  /opt/ssoadm/auth/$OAUTH_AGENT_DATAFILE" \
-  > /dev/null
+# Replace placeholders in datafile and copy it to the container
+TEST_INSTANCE_ID=$TEST_INSTANCE_ID \
+TEST_REALM=$TEST_REALM \
+REDIRECT_URI=$OAUTH_AGENT_REDIRECT_URI \
+AGENT_PASSWORD=$OAUTH_AGENT_SECRET \
+envsubst < "$SCRIPT_DIR/cfg/$OAUTH_AGENT_DATAFILE" \
+  | docker exec -i "wrenam-test"$TEST_INSTANCE_ID bash -c "cat > /opt/ssoadm/auth/$OAUTH_AGENT_DATAFILE"
 
 # Create the agent
 exec_ssoadm $TEST_INSTANCE_ID create-agent \
   --adminid amadmin \
   --password-file pwd.txt \
+  --realm "$TEST_REALM" \
   --agenttype OAuth2Client \
   --agentname $OAUTH_AGENT_ID \
-  --realm "$TEST_REALM" \
   --datafile $OAUTH_AGENT_DATAFILE \
   > /dev/null
