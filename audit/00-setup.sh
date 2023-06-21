@@ -10,4 +10,5 @@ exec_ssoadm $TEST_INSTANCE_ID set-sub-cfg \
   --servicename AuditService \
   --subconfigname "Global CSV Handler" \
   --operation set \
-  --attributevalues "bufferingEnabled=false" "bufferingAutoFlush=true"
+  --attributevalues "bufferingEnabled=false" "bufferingAutoFlush=true" \
+  > /dev/null

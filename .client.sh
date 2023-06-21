@@ -68,7 +68,7 @@ authentication_request() {
 #
 get_response_body() {
   local input=${1:-}
-  if [ "$input" == "-" ]; then
+  if [ "$input" = "-" ]; then
     input=$(cat)
   fi
   echo -n "$input" | sed -r '0,/^[\r\n]+/d'
@@ -79,7 +79,7 @@ get_response_body() {
 #
 get_response_status() {
   local input=${1:-}
-  if [ "$input" == "-" ]; then
+  if [ "$input" = "-" ]; then
     input=$(cat)
   fi
   echo -n "$input" | head -n 1 | cut -d' ' -f2
