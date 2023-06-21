@@ -26,19 +26,16 @@ exec_ssoadm $TEST_INSTANCE_ID create-realm \
 #   * Allow clients to skip consent: enabled
 #   * Issue refresh tokens: enabled
 #
-# Provided XML file with service configuration was obtained via "export-svc-cfg" ssoadm command
-#
-OAUTH_SVC_CFG="oauth2-svc-cfg.xml"
-
-# Copy service configuration file to container and replace placeholders
-docker cp "$SCRIPT_DIR/cfg/$OAUTH_SVC_CFG" "wrenam-test$TEST_INSTANCE_ID:/opt/ssoadm/auth/$OAUTH_SVC_CFG"
-exec_am $TEST_INSTANCE_ID bash -c "sed -i -e 's|{{REALM}}|$TEST_REALM|' /opt/ssoadm/auth/$OAUTH_SVC_CFG" > /dev/null
+OAUTH_SVC_DATAFILE="oauth2-svc.properties"
 
 # Create the service
-exec_ssoadm $TEST_INSTANCE_ID update-svc \
+docker cp "$SCRIPT_DIR/cfg/$OAUTH_SVC_DATAFILE" "wrenam-test$TEST_INSTANCE_ID:/opt/ssoadm/auth/$OAUTH_SVC_DATAFILE"
+exec_ssoadm $TEST_INSTANCE_ID add-svc-realm \
   --adminid amadmin \
   --password-file pwd.txt \
-  --xmlfile $OAUTH_SVC_CFG \
+  --realm "$TEST_REALM" \
+  --servicename OAuth2Provider \
+  --datafile $OAUTH_SVC_DATAFILE \
   > /dev/null
 
 # Create OAuth 2.0 agent
