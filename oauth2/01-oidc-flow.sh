@@ -6,7 +6,7 @@
 
 TEST_USER_USERNAME="John Doe"
 TEST_USER_PASSWORD="password"
-AM_HOST_MAPPING="wrenam.wrensecurity.local:443:10.0.0.11:443"
+AM_HOST_MAPPING="wrenam.wrensecurity.local:80:10.0.0.11:80"
 AM_BASE_URL="http://wrenam.wrensecurity.local/auth"
 
 clear_cookies

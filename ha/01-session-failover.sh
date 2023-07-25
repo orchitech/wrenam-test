@@ -42,6 +42,6 @@ curl -si \
   -H 'Accept: application/json' \
   -H 'Accept-API-Version: protocol=1.0,resource=2.0' \
   -b "amlbcookie=${TEST_INSTANCE_LB_COOKIE[$TEST_INSTANCE_ID]};iPlanetDirectoryPro=$TOKEN" \
-  --connect-to wrenam.wrensecurity.local:443:10.0.0.11:443 \
+  --connect-to wrenam.wrensecurity.local:80:10.0.0.11:80 \
   "http://wrenam.wrensecurity.local/auth/json/users?_action=idFromSession" \
 | assert_response_status > /dev/null

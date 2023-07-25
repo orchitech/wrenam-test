@@ -39,6 +39,6 @@ post_request() {
     -H 'Accept-API-Version: protocol=1.0,resource=2.0' \
     -H "iPlanetDirectoryPro: $TOKEN" \
     -d @- \
-    --connect-to wrenam.wrensecurity.local:443:10.0.0.11:443 \
+    --connect-to wrenam.wrensecurity.local:80:10.0.0.11:80 \
     "http://wrenam.wrensecurity.local/auth/json${TEST_REALM:+$TEST_REALM}/$resource?_action=$action"
 }

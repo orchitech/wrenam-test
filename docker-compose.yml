@@ -49,7 +49,7 @@ services:
     <<: *shared-config
 
   wrends1:
-    image: wrensecurity/wrends:5.0.0
+    image: wrensecurity/wrends:5.0.1
     container_name: wrenam-wrends1
     environment:
       BASE_DN: ou=wrenam,dc=wrensecurity,dc=org

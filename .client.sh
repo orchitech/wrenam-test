@@ -23,6 +23,7 @@ clear_cookies() {
 #
 set_cookies() {
   local cookie_file="./.cookies/${AUTH_SESSION_NAME:-default}"
+  mkdir -p "$(dirname "$cookie_file")"
   cat > $cookie_file
 }
 
@@ -59,7 +60,7 @@ authentication_request() {
       -c "$cookie_file" \
       -b "$cookie_file" \
       -d @- \
-      --connect-to wrenam.wrensecurity.local:443:10.0.0.11:443 \
+      --connect-to wrenam.wrensecurity.local:80:10.0.0.11:80 \
       "http://wrenam.wrensecurity.local/auth/json/authenticate?$extra_query"
 }
 

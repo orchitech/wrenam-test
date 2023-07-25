@@ -43,10 +43,11 @@ init_platform() {
   # Start AM servers
   for instance_id in {1..2}; do
     start_am $instance_id
-    exec_am $instance_id java -jar /opt/ssoconf/openam-configurator-tool-15.0.0-M3-SNAPSHOT.jar --file /srv/wrenam/config.properties
+    exec_am $instance_id java -jar /opt/ssoconf/openam-configurator-tool.jar --file /srv/wrenam/config.properties
     wait_am $instance_id
     docker-compose exec -w /opt/ssoadm "wrenam"$instance_id /opt/ssoadm/setup --path /srv/wrenam --acceptLicense
-    docker-compose exec -w /opt/ssoadm "wrenam"$instance_id bash -c "umask 0377 && echo -n password > auth/pwd.txt"
+    docker-compose exec -w /opt/ssoadm "wrenam"$instance_id bash -c \
+      "[ -f auth/pwd.txt ] || (umask 0377 && echo -n password > auth/pwd.txt)"
   done
 }
 
