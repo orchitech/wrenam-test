@@ -93,7 +93,8 @@ exec_ssoadm() {
 check_am() {
   local instance_id=${1:-1}
   local expect_alive=${2:-1}
-  local status=$(exec_am $instance_id curl -s http://localhost:8080/auth/isAlive.jsp)
+  local status
+  status=$(exec_am $instance_id curl -s http://localhost:8080/auth/isAlive.jsp)
   [ $? -eq 0 ] || return 1
   [ $expect_alive -ne 1 ] || $(echo "$status" | grep "Server is ALIVE:" > /dev/null)
 }
