@@ -60,6 +60,9 @@ Use `run.sh` shell script to run the whole test suite:
 $ ./run.sh
 ```
 
+Note that the whole test suite finishes successfully (without an error), the platform containers will be shutdown.
+In case of a failed test, the platform won't be shutdown to allow for easier debugging.
+
 Tests are based on docker image of Wren:AM named `wrenam`. This image name can be overriden
 with `WRENAM_IMAGE` environment variable:
 

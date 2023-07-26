@@ -51,6 +51,10 @@ init_platform() {
   done
 }
 
+shutdown_platform() {
+  docker-compose down -v
+}
+
 start_am() {
   local instance_id=${1:-1}
   local expect_alive=${2:-0}

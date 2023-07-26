@@ -44,3 +44,4 @@ run_suite() {
 
 init_platform
 run_suite
+shutdown_platform
