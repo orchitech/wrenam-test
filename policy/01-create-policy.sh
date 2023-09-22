@@ -10,6 +10,28 @@ TEST_USER_PASSWORD=password
 
 TOKEN=$(authenticate "/")
 
+# Create URL resource type
+URL_RESOURCE_TYPE_DATA='{
+  "uuid": "UrlResourceType",
+  "name": "URL",
+  "actions": {
+    "DELETE" : true,
+    "GET" : true,
+    "HEAD" : true,
+    "OPTIONS" : true,
+    "PATCH" : true,
+    "POST" : true,
+    "PUT" : true
+  },
+  "patterns": [
+    "*://*:*/*",
+    "*://*:*/*?*"
+  ]
+}'
+post_request "resourcetypes" "create" <<< "$URL_RESOURCE_TYPE_DATA" \
+  | assert_response_status 201 \
+  > /dev/null
+
 # Create policy set
 TEST_POLICY_SET_DATA='{
   "name": "'$TEST_POLICY_SET_ID'",

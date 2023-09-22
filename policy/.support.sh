@@ -36,7 +36,7 @@ post_request() {
     -X POST \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
-    -H 'Accept-API-Version: protocol=1.0,resource=2.0' \
+    -H 'Accept-API-Version: protocol=1.0' \
     -H "iPlanetDirectoryPro: $TOKEN" \
     -d @- \
     --connect-to wrenam.wrensecurity.local:80:10.0.0.11:80 \
