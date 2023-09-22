@@ -13,7 +13,8 @@ TEST_CATEGORIES=(
   "ha"
   "oauth2"
   "ssoadm"
-  "policy"
+  "policy",
+  "repo-embedded"
 )
 
 log_suite() {

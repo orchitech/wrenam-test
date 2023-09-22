@@ -48,6 +48,17 @@ services:
         ipv4_address: 10.0.0.22
     <<: *shared-config
 
+  wrenam9:
+    image: "${WRENAM_IMAGE:-wrenam}"
+    container_name: wrenam-test9
+    hostname: wrenam9.wrensecurity.local
+    volumes:
+      - .docker/wrenam/config9.properties:/srv/wrenam/config.properties
+    networks:
+      wrenam:
+        ipv4_address: 10.0.0.29
+    <<: *shared-config
+
   wrends1:
     image: wrensecurity/wrends:5.0.1
     container_name: wrenam-wrends1
