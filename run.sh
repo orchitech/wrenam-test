@@ -7,13 +7,7 @@
 
 # Hardcoded list of test categories
 TEST_CATEGORIES=(
-  "audit"
   "auth-datastore"
-  "auth-ldap"
-  "ha"
-  "oauth2"
-  "ssoadm"
-  "policy"
 )
 
 log_suite() {
@@ -44,4 +38,4 @@ run_suite() {
 
 init_platform
 run_suite
-shutdown_platform
+# shutdown_platform

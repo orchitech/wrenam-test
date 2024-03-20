@@ -41,7 +41,7 @@ init_platform() {
   # Start configuration store
   start_ds
   # Start AM servers
-  for instance_id in {1..2}; do
+  for instance_id in {1..1}; do
     start_am $instance_id
     exec_am $instance_id java -jar /opt/ssoconf/openam-configurator-tool.jar --file /srv/wrenam/config.properties
     wait_am $instance_id

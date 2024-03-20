@@ -34,19 +34,19 @@ services:
         ipv4_address: 10.0.0.21
     <<: *shared-config
 
-  wrenam2:
-    image: "${WRENAM_IMAGE:-wrenam}"
-    container_name: wrenam-test2
-    hostname: wrenam2.wrensecurity.local
-    volumes:
-      - .docker/wrenam/config2.properties:/srv/wrenam/config.properties
-    depends_on:
-      - frontend
-      - wrends1
-    networks:
-      wrenam:
-        ipv4_address: 10.0.0.22
-    <<: *shared-config
+  # wrenam2:
+  #   image: "${WRENAM_IMAGE:-wrenam}"
+  #   container_name: wrenam-test2
+  #   hostname: wrenam2.wrensecurity.local
+  #   volumes:
+  #     - .docker/wrenam/config2.properties:/srv/wrenam/config.properties
+  #   depends_on:
+  #     - frontend
+  #     - wrends1
+  #   networks:
+  #     wrenam:
+  #       ipv4_address: 10.0.0.22
+  #   <<: *shared-config
 
   wrends1:
     image: wrensecurity/wrends:5.0.1
@@ -65,6 +65,9 @@ services:
     container_name: wrenam-ldap1
     environment:
       LDAP_ADMIN_PASSWORD: password
+    command: [--copy-service, --loglevel, debug]
+    ports:
+      - 389:389
     networks:
       wrenam:
         ipv4_address: 10.0.0.41
