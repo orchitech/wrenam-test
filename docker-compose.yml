@@ -1,5 +1,3 @@
-version: "3.4"
-
 x-shared-config: &shared-config
   extra_hosts:
     - "wrenam.wrensecurity.local:10.0.0.11"

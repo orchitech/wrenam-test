@@ -37,7 +37,7 @@ fail_test() {
 
 init_platform() {
   # Start required services
-  docker-compose up -d frontend ldap1
+  docker compose up -d frontend ldap1
   # Start configuration store
   start_ds
   # Start AM servers
@@ -45,20 +45,20 @@ init_platform() {
     start_am $instance_id
     exec_am $instance_id java -jar /opt/ssoconf/openam-configurator-tool.jar --file /srv/wrenam/config.properties
     wait_am $instance_id
-    docker-compose exec -w /opt/ssoadm "wrenam"$instance_id /opt/ssoadm/setup --path /srv/wrenam --acceptLicense
-    docker-compose exec -w /opt/ssoadm "wrenam"$instance_id bash -c \
+    docker compose exec -w /opt/ssoadm "wrenam"$instance_id /opt/ssoadm/setup --path /srv/wrenam --acceptLicense
+    docker compose exec -w /opt/ssoadm "wrenam"$instance_id bash -c \
       "[ -f auth/pwd.txt ] || (umask 0377 && echo -n password > auth/pwd.txt)"
   done
 }
 
 shutdown_platform() {
-  docker-compose down -v
+  docker compose down -v
 }
 
 start_am() {
   local instance_id=${1:-1}
   local expect_alive=${2:-0}
-  docker-compose up -d "wrenam"$instance_id
+  docker compose up -d "wrenam"$instance_id
   wait_am $instance_id $expect_alive
   log_message "Wren:AM test instance $instance_id started..."
 }
@@ -76,18 +76,18 @@ wait_am() {
 stop_am() {
   local instance_id=${1:-1}
   log_message "Stopping Wren:AM test instance $instance_id..."
-  docker-compose rm -fs "wrenam"$instance_id
+  docker compose rm -fs "wrenam"$instance_id
   log_message "Wren:AM test instance $instance_id succesfuly stopped..."
 }
 
 exec_am() {
   local instance_id=$1
-  docker-compose exec "wrenam"$instance_id "${@:2}"
+  docker compose exec "wrenam"$instance_id "${@:2}"
 }
 
 exec_ssoadm() {
   local instance_id=$1
-  docker-compose exec -w /opt/ssoadm/auth "wrenam"$instance_id ./bin/ssoadm "${@:2}"
+  docker compose exec -w /opt/ssoadm/auth "wrenam"$instance_id ./bin/ssoadm "${@:2}"
 }
 
 check_am() {
@@ -102,7 +102,7 @@ check_am() {
 start_ds() {
   local instance_id=${1:-1}
   log_message "Starting Wren:DS test instance $instance_id..."
-  docker-compose up -d "wrends"$instance_id
+  docker compose up -d "wrends"$instance_id
   while true; do
     check_ds $instance_id && break
     log_message "Waiting for the container to startup..."
