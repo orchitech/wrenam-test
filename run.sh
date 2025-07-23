@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Simple script for running full test suite.
 #
@@ -23,7 +23,11 @@ log_suite() {
 run_tests() {
   local category="$1"
   log_suite "Running '$category' tests"
-  run-parts --regex '^[^\.].*.sh$' --exit-on-error "$category" -v
+  for script in "$category"/*.sh; do
+    [ -e "$script" ] || continue
+    log_suite "::$script"
+    "$script"
+  done
 }
 
 run_suite() {

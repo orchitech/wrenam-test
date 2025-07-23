@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 declare -A TEST_INSTANCE_LB_COOKIE=( [1]=01 [2]=03 )
 

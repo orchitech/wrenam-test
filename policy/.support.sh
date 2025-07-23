@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TEST_INSTANCE_ID=1
 TEST_REALM="/policy-test"
