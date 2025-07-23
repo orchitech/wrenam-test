@@ -1,0 +1,7 @@
+# Wren:AM admin
+dn: dc=example,dc=org
+changetype: modify
+add: aci
+aci: (targetattr="*")(version 3.0;acl "Allow CRUDQ operations"; allow (search, read, write, add, delete)(userdn = "ldap:///cn=wrenam,ou=system-users,dc=example,dc=org");)
+aci: (targetcontrol="2.16.840.1.113730.3.4.3")(version 3.0;acl "Allow persistent search"; allow (search, read)(userdn = "ldap:///cn=wrenam,ou=system-users,dc=example,dc=org");)
+aci: (targetcontrol="1.2.840.113556.1.4.473")(version 3.0;acl "Allow server-side sorting"; allow (read)(userdn = "ldap:///cn=wrenam,ou=system-users,dc=example,dc=org");)

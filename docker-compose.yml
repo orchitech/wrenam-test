@@ -90,12 +90,14 @@ services:
     <<: *shared-config
 
   ldap1:
-    build: .docker/openldap
+    image: wrensecurity/wrends:5.0.1
     container_name: wrenam-ldap1
     environment:
-      LDAP_ADMIN_PASSWORD: password
+      BASE_DN: dc=example,dc=org
+    volumes:
+      - .docker/userstore:/opt/wrends/bootstrap/init
     healthcheck:
-      test: ["CMD", "ldapsearch", "-x", "-b", "", "-s", "base", "(objectclass=*)", "namingContexts"]
+      test: ["CMD", "curl", "-f", "ldap://localhost:1389"]
       interval: 30s
       timeout: 10s
       retries: 3

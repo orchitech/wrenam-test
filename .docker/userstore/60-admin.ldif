@@ -1,0 +1,16 @@
+dn: ou=system-users,dc=example,dc=org
+objectClass: organizationalUnit
+ou: system-users
+
+dn: cn=wrenam,ou=system-users,dc=example,dc=org
+objectClass: inetOrgPerson
+cn: wrenam
+sn: wrenam
+uid: wrenam
+userPassword: password
+ds-privilege-name: update-schema
+ds-privilege-name: subentry-write
+ds-privilege-name: password-reset
+ds-privilege-name: unindexed-search
+ds-rlim-lookthrough-limit: 0
+ds-rlim-size-limit: 10000

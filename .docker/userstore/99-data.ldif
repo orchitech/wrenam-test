@@ -1,0 +1,22 @@
+dn: ou=users,dc=example,dc=org
+objectClass: organizationalUnit
+ou: people
+
+dn: ou=groups,dc=example,dc=org
+objectclass: organizationalUnit
+ou: groups
+
+dn: uid=john,ou=users,dc=example,dc=org
+objectClass: inetOrgPerson
+uid: john
+cn: John Doe
+sn: Doe
+mail: john.doe@example.org
+telephoneNumber: 123456789
+userPassword: password
+
+dn: cn=basic,ou=groups,dc=example,dc=org
+objectClass: groupOfNames
+cn: basic
+member: cn=dummy
+member: uid=john,ou=users,dc=example,dc=org
