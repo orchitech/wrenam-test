@@ -130,3 +130,11 @@ check_ds() {
 exec_ldap() {
   docker exec -i wrenam-ldap1 "$@" < /dev/stdin
 }
+
+call_curl() {
+  docker run --rm \
+      --network wrenam-test \
+      -v "$(pwd):/home/curl_user" \
+      -u "$(id -u)" \
+      -i curlimages/curl curl --no-styled-output "$@"
+}

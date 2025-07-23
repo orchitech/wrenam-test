@@ -52,7 +52,7 @@ authentication_request() {
   mkdir -p "$(dirname "$cookie_file")"
 
   # Add `--trace-ascii %` option to print out HTTP traffic
-  cat | curl -si \
+  cat | call_curl -si \
       -X POST \
       -H 'Accept: application/json' \
       -H 'Content-Type: application/json' \
@@ -68,18 +68,18 @@ authentication_request() {
 # Get response body from request passed through stdin or as a function argument.
 #
 get_response_body() {
-  local input=${1:-}
+  local input=${1:--}
   if [ "$input" = "-" ]; then
     input=$(cat)
   fi
-  echo -n "$input" | sed -r '0,/^[\r\n]+/d'
+  echo "$input" | awk 'BEGIN{RS="\r\n\r\n"} NR>1{print}'
 }
 
 #
 # Get response status code from request passed through stdin or as a function argument.
 #
 get_response_status() {
-  local input=${1:-}
+  local input=${1:--}
   if [ "$input" = "-" ]; then
     input=$(cat)
   fi

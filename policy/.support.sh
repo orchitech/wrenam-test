@@ -32,7 +32,7 @@ authenticate() {
 post_request() {
   local resource=$1
   local action=$2
-  cat | curl -si \
+  cat | call_curl -si \
     -X POST \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \

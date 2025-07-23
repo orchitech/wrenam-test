@@ -37,7 +37,7 @@ TOKEN=$(
 docker stop wrenam-test1 > /dev/null
 
 # Preserve AM test instance 1 amlbcookie, include obtained token
-curl -si \
+call_curl -si \
   -X POST \
   -H 'Accept: application/json' \
   -H 'Accept-API-Version: protocol=1.0,resource=2.0' \

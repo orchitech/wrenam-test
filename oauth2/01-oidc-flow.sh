@@ -47,7 +47,7 @@ AUTH_2_PARAMS=(
 )
 AUTH_2_QUERY=$(IFS="&"; printf '%s' "${AUTH_2_PARAMS[*]}")
 AUTH_2_RESPONSE=$(
-  curl -sI \
+  call_curl -sI \
     -X GET \
     -b "iPlanetDirectoryPro=$TOKEN_ID" \
     --connect-to "$AM_HOST_MAPPING" \
@@ -70,7 +70,7 @@ AUTH_3_PARAMS=(
 )
 AUTH_3_BODY=$(IFS="&"; printf '%s' "${AUTH_3_PARAMS[*]}")
 ACCESS_TOKEN=$(
-  curl -si \
+  call_curl -si \
     -X POST \
     -u "$OAUTH_AGENT_ID":"$OAUTH_AGENT_SECRET" \
     -d "$AUTH_3_BODY" \
@@ -86,7 +86,7 @@ ACCESS_TOKEN=$(
 #
 # STEP 4: Request access token information (introspect) as OIDC client
 #
-curl -si \
+call_curl -si \
   -X GET \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -H "Accept: application/json" \
