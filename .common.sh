@@ -7,33 +7,9 @@ set -eu -o pipefail
 
 trap "log_error Test failure!" ERR
 
-log_message() {
-  echo -e "\033[0;33m[TEST] $*\033[0m" >&2
-}
+source .shared/support.bash
 
-log_error() {
-  echo -e "\033[0;31m[ERROR] $*\033[0m" >&2
-}
 
-await_confirm() {
-  echo -n "$1 (y/n)? "
-  local answer
-  read answer
-  if [ "$answer" != "${answer#[Yy]}" ]; then
-    echo
-  else
-    log_error
-    exit 1
-  fi
-}
-
-fail_test() {
-  log_error "${1:-}"
-  if [ -n "${2:-}" ]; then
-    echo "$2" >&2
-  fi
-  exit 1
-}
 
 init_platform() {
   # Start required services
@@ -53,14 +29,6 @@ init_platform() {
 
 shutdown_platform() {
   docker compose down -v
-}
-
-start_am() {
-  local instance_id=${1:-1}
-  local expect_alive=${2:-0}
-  docker compose up -d "wrenam"$instance_id
-  wait_am $instance_id $expect_alive
-  log_message "Wren:AM test instance $instance_id started..."
 }
 
 wait_am() {

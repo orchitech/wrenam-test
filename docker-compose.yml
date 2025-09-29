@@ -18,12 +18,14 @@ services:
     <<: *shared-config
 
   wrenam1:
-    image: "${WRENAM_IMAGE:-wrenam}"
+    image: "${WRENAM_IMAGE:-wrenam-test}"
     container_name: wrenam-test1
     hostname: wrenam1.wrensecurity.local
+    entrypoint: "/srv/wrenam/entrypoint.sh"
+    command: ["catalina.sh", "run"]
     volumes:
-      - .docker/wrenam/config1.properties:/srv/wrenam/config.properties
-      - .docker/wrenam/LDAP.properties:/srv/wrenam/LDAP.properties
+      - .docker/wrenam/entrypoint.sh:/srv/wrenam/entrypoint.sh:ro
+      - .docker/wrenam/init1:/srv/wrenam/init
     depends_on:
       frontend:
         condition: service_started
@@ -44,7 +46,7 @@ services:
     <<: *shared-config
 
   wrenam2:
-    image: "${WRENAM_IMAGE:-wrenam}"
+    image: "${WRENAM_IMAGE:-wrenam-test}"
     container_name: wrenam-test2
     hostname: wrenam2.wrensecurity.local
     volumes:
