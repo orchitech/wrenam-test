@@ -1,3 +1,6 @@
+> [!WARNING]
+> This repository has been migrated under [`wrensec-test`](https://github.com/orchitech/wrensec-test/) project.
+
 # Wren:AM System Test Resources
 
 Resources for performing Wren:AM system tests.
